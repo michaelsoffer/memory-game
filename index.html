@@ -31,7 +31,10 @@
     <button class="hidden" id="stopBtn" onclick="stopGame()">
       Stop
     </button>
-  
+
+    <h2 id="patternPlayingText" class="hidden">Pattern Playing... Pay Attention</h2>
+    <h2 id="playPatternText" class="hidden">Play Pattern Back Now</h2>
+
     <div id="gameButtonArea">
       <button id="button1" onmousedown="startTone(1)" onmouseup="stopTone()" onclick="guess(1)"></button>
       <button id="button2" onmousedown="startTone(2)" onmouseup="stopTone()" onclick="guess(2)"></button>
