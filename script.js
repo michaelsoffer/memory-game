@@ -24,6 +24,7 @@ function startGame() {
   gamePlaying = true;
   initializeRandomPattern();
 
+  document.getElementById("patternPlayingText").classList.remove("hidden");
   document.getElementById("startBtn").classList.add("hidden");
   document.getElementById("stopBtn").classList.remove("hidden");
   playClueSequence();
@@ -36,6 +37,9 @@ function stopGame() {
   // swap the Start and Stop buttons
   document.getElementById("startBtn").classList.remove("hidden");
   document.getElementById("stopBtn").classList.add("hidden");
+
+  document.getElementById("patternPlayingText").classList.add("hidden");
+  document.getElementById("playPatternText").classList.add("hidden");
 }
 
 // Sound Synthesis Functions
@@ -45,6 +49,7 @@ const freqMap = {
   3: 392,
   4: 466.2,
 };
+
 function playTone(btn, len) {
   o.frequency.value = freqMap[btn];
   g.gain.setTargetAtTime(volume, context.currentTime + 0.05, 0.025);
@@ -54,6 +59,7 @@ function playTone(btn, len) {
     stopTone();
   }, len);
 }
+
 function startTone(btn) {
   if (!tonePlaying) {
     context.resume();
@@ -63,6 +69,7 @@ function startTone(btn) {
     tonePlaying = true;
   }
 }
+
 function stopTone() {
   g.gain.setTargetAtTime(0, context.currentTime + 0.05, 0.025);
   tonePlaying = false;
@@ -93,13 +100,17 @@ function playSingleClue(btn) {
   if (gamePlaying) {
     lightButton(btn);
     playTone(btn, clueHoldTime);
-    setTimeout(clearButton, clueHoldTime, btn);
+    setTimeout(clearButton, clueHoldTime, btn);    
   }
 }
 
 function playClueSequence() {
+  document.getElementById("patternPlayingText").classList.remove("hidden");
+  document.getElementById("playPatternText").classList.add("hidden");
+
   guessCounter = 0;
   let delay = nextClueWaitTime; //set delay to initial wait time
+  
   for (let i = 0; i <= progress; i++) {
     // for each clue that is revealed so far
     console.log("play single clue: " + pattern[i] + " in " + delay + "ms");
@@ -107,6 +118,12 @@ function playClueSequence() {
     delay += clueHoldTime;
     delay += cluePauseTime;
   }
+  setTimeout(showPlayText, delay);
+}
+
+function showPlayText() {
+  document.getElementById("patternPlayingText").classList.add("hidden");
+  document.getElementById("playPatternText").classList.remove("hidden");
 }
 
 function loseGame(){
